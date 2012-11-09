@@ -1,0 +1,9 @@
+[submodule "Cache/submodules/Log"]
+	path = Cache/submodules/Log
+	url = https://github.com/pghalliday/OOOCode-Log.git
+[submodule "Cache/submodules/UnitTest"]
+	path = Cache/submodules/UnitTest
+	url = https://github.com/pghalliday/OOOCode-UnitTest.git
+[submodule "Cache/submodules/OOOCode"]
+	path = Cache/submodules/OOOCode
+	url = https://github.com/pghalliday/OOOCode.git
