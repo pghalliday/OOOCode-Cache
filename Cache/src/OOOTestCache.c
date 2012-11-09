@@ -24,7 +24,6 @@ OOODestructor
 		pLast = pEntry;
 		pEntry = pEntry->pNext;
 		O_free(pLast->szName);
-		O_free(pLast->pData);
 		O_free(pLast);
 	}
 }
@@ -51,7 +50,6 @@ OOOMethod(void, set, char * szName, unsigned char * pData, size_t uSize)
 					OOOF(pEntries) = pEntry->pNext;
 				}
 				O_free(pEntry->szName);
-				O_free(pEntry->pData);
 				O_free(pEntry);
 				break;
 			}
@@ -82,13 +80,7 @@ OOOMethod(void, set, char * szName, unsigned char * pData, size_t uSize)
 			pEntry->uSize = 0;
 		}
 
-		if (pEntry->pData)
-		{
-			O_free(pEntry->pData);
-		}
-
-		pEntry->pData = O_calloc(uSize, sizeof(unsigned char));
-		O_memcpy(pEntry->pData, pData, uSize);
+		pEntry->pData = pData;
 		pEntry->uSize = uSize;
 	}
 }
@@ -104,8 +96,7 @@ OOOMethod(void, get, char * szName, unsigned char ** ppData, size_t * pSize)
 		if (O_strcmp(pEntry->szName, szName) == 0)
 		{
 			*pSize = pEntry->uSize;
-			*ppData = O_calloc(pEntry->uSize, sizeof(unsigned char));
-			O_memcpy(*ppData, pEntry->pData, pEntry->uSize);
+			*ppData = pEntry->pData;
 			break;
 		}
 		pEntry = pEntry->pNext;

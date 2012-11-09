@@ -22,58 +22,48 @@ OOOTest(OOOTestCache)
 	OOOICall(iCache, set, "Pear", (unsigned char *) szPear, O_strlen(szPear) + 1);
 
 	OOOCall(pCache, get, "HelloWorld", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szHelloWorld) == 0);
+	OOOCheck(szBuffer == szHelloWorld);
 	OOOCheck(uSize == O_strlen(szHelloWorld) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "GoodbyeWorld", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szGoodbyeWorld) == 0);
+	OOOCheck(szBuffer == szGoodbyeWorld);
 	OOOCheck(uSize == O_strlen(szGoodbyeWorld) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Apple", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szApple) == 0);
+	OOOCheck(szBuffer == szApple);
 	OOOCheck(uSize == O_strlen(szApple) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Banana", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szBanana) == 0);
+	OOOCheck(szBuffer == szBanana);
 	OOOCheck(uSize == O_strlen(szBanana) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Pear", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szPear) == 0);
+	OOOCheck(szBuffer == szPear);
 	OOOCheck(uSize == O_strlen(szPear) + 1);
-	O_free(szBuffer);
 
 	/* Should be able to overwrite entries in the cache */
 	OOOICall(iCache, set, "Apple", (unsigned char *) szBanana, O_strlen(szBanana) + 1);
 	OOOICall(iCache, set, "Pear", (unsigned char *) szGoodbyeWorld, O_strlen(szGoodbyeWorld) + 1);
 
 	OOOCall(pCache, get, "HelloWorld", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szHelloWorld) == 0);
+	OOOCheck(szBuffer == szHelloWorld);
 	OOOCheck(uSize == O_strlen(szHelloWorld) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "GoodbyeWorld", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szGoodbyeWorld) == 0);
+	OOOCheck(szBuffer == szGoodbyeWorld);
 	OOOCheck(uSize == O_strlen(szGoodbyeWorld) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Apple", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szBanana) == 0);
+	OOOCheck(szBuffer == szBanana);
 	OOOCheck(uSize == O_strlen(szBanana) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Banana", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szBanana) == 0);
+	OOOCheck(szBuffer == szBanana);
 	OOOCheck(uSize == O_strlen(szBanana) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Pear", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szGoodbyeWorld) == 0);
+	OOOCheck(szBuffer == szGoodbyeWorld);
 	OOOCheck(uSize == O_strlen(szGoodbyeWorld) + 1);
-	O_free(szBuffer);
 
 	/* Should return NULL when entry is not in the cache */
 	OOOCall(pCache, get, "Nothing", (unsigned char **) &szBuffer, &uSize);
@@ -89,23 +79,20 @@ OOOTest(OOOTestCache)
 	OOOCheck(uSize == 0);
 
 	OOOCall(pCache, get, "GoodbyeWorld", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szGoodbyeWorld) == 0);
+	OOOCheck(szBuffer == szGoodbyeWorld);
 	OOOCheck(uSize == O_strlen(szGoodbyeWorld) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Apple", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szBanana) == 0);
+	OOOCheck(szBuffer == szBanana);
 	OOOCheck(uSize == O_strlen(szBanana) + 1);
-	O_free(szBuffer);
 
 	OOOCall(pCache, get, "Banana", (unsigned char **) &szBuffer, &uSize);
 	OOOCheck(szBuffer == NULL);
 	OOOCheck(uSize == 0);
 
 	OOOCall(pCache, get, "Pear", (unsigned char **) &szBuffer, &uSize);
-	OOOCheck(O_strcmp(szBuffer, szGoodbyeWorld) == 0);
+	OOOCheck(szBuffer == szGoodbyeWorld);
 	OOOCheck(uSize == O_strlen(szGoodbyeWorld) + 1);
-	O_free(szBuffer);
 
 	OOODestroy(pCache);
 }

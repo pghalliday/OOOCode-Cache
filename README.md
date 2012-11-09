@@ -7,6 +7,7 @@ OOOCode Cache interface for named lumps of data.
 
 - Should expose a cache interface
 - Should implement a test cache
+- OOOTestCache should return the same data pointer that was set in the cache
 
 ## API
 
@@ -39,8 +40,7 @@ OOOICall(iCache, get, "MyData", &pData, &uDataSize);
 
 ## Roadmap
 
-- Should maintain a reference to the original data
-- Should notifier the owner when the original data is no longer needed
+- Should notify the owner when the original data is no longer needed
 - Should support asynchronous implementations
 
 ## Contributing
