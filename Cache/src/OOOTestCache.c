@@ -118,11 +118,11 @@ OOOConstructor()
 #define OOOInterface OOOICache
 	OOOMapVirtuals
 		OOOMapVirtual(set)
-		OOOMapVirtual(get)
 	OOOMapVirtualsEnd
 #undef OOOInterface
 
 	OOOMapMethods
+		OOOMapMethod(get)
 	OOOMapMethodsEnd
 }
 OOOConstructorEnd

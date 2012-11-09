@@ -10,6 +10,7 @@ OOODeclare()
 		OOOImplement(OOOICache)
 	OOOImplementsEnd
 	OOOExports
+		OOOExport(void, get, char * szName, unsigned char ** ppData, size_t * pSize)
 	OOOExportsEnd
 OOODeclareEnd
 #undef OOOClass
