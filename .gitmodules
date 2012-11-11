@@ -7,3 +7,6 @@
 [submodule "Cache/submodules/OOOCode"]
 	path = Cache/submodules/OOOCode
 	url = https://github.com/pghalliday/OOOCode.git
+[submodule "Cache/submodules/Error"]
+	path = Cache/submodules/Error
+	url = https://github.com/pghalliday/OOOCode-Error.git
