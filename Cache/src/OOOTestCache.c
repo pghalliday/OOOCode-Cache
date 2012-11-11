@@ -1,4 +1,5 @@
 #include "OOOTestCache.h"
+#include "OOOError.h"
 
 #define OOOClass OOOTestCache
 
@@ -29,59 +30,72 @@ OOODestructor
 }
 OOODestructorEnd
 
-OOOMethod(void, set, char * szName, unsigned char * pData, size_t uSize)
+OOOMethod(void, set, OOOICacheData * iCacheData)
 {
 	Entry * pEntry = OOOF(pEntries);
+	char * szName = OOOICall(iCacheData, getName);
+	unsigned char * pData = OOOICall(iCacheData, getData);
+	size_t uSize = OOOICall(iCacheData, getSize);
 
-	if (pData == NULL)
+	if (szName == NULL)
 	{
-		/* Delete */
-		Entry * pLast = NULL;
-		while (pEntry)
-		{
-			if (O_strcmp(pEntry->szName, szName) == 0)
-			{
-				if (pLast)
-				{
-					pLast->pNext = pEntry->pNext;
-				}
-				else
-				{
-					OOOF(pEntries) = pEntry->pNext;
-				}
-				O_free(pEntry->szName);
-				O_free(pEntry);
-				break;
-			}
-			pLast = pEntry;
-			pEntry = pEntry->pNext;
-		}
+		OOOError * pError = OOOConstruct(OOOError, "INVALID NAME");
+		OOOICall(iCacheData, cached, OOOCast(OOOIError, pError));
+		OOODestroy(pError);
 	}
 	else
 	{
-		/* Set */
-		while (pEntry)
+		if (pData == NULL)
 		{
-			if (O_strcmp(pEntry->szName, szName) == 0)
+			/* Delete */
+			Entry * pLast = NULL;
+			while (pEntry)
 			{
-				break;
+				if (O_strcmp(pEntry->szName, szName) == 0)
+				{
+					if (pLast)
+					{
+						pLast->pNext = pEntry->pNext;
+					}
+					else
+					{
+						OOOF(pEntries) = pEntry->pNext;
+					}
+					O_free(pEntry->szName);
+					O_free(pEntry);
+					break;
+				}
+				pLast = pEntry;
+				pEntry = pEntry->pNext;
 			}
-			pEntry = pEntry->pNext;
 		}
-
-		if (!pEntry)
+		else
 		{
-			/* Add */
-			pEntry = O_malloc(sizeof(Entry));
-			pEntry->pNext = OOOF(pEntries);
-			OOOF(pEntries) = pEntry;
-			pEntry->szName = O_strdup(szName);
-			pEntry->pData = NULL;
-			pEntry->uSize = 0;
-		}
+			/* Set */
+			while (pEntry)
+			{
+				if (O_strcmp(pEntry->szName, szName) == 0)
+				{
+					break;
+				}
+				pEntry = pEntry->pNext;
+			}
 
-		pEntry->pData = pData;
-		pEntry->uSize = uSize;
+			if (!pEntry)
+			{
+				/* Add */
+				pEntry = O_malloc(sizeof(Entry));
+				pEntry->pNext = OOOF(pEntries);
+				OOOF(pEntries) = pEntry;
+				pEntry->szName = O_strdup(szName);
+				pEntry->pData = NULL;
+				pEntry->uSize = 0;
+			}
+
+			pEntry->pData = pData;
+			pEntry->uSize = uSize;
+		}
+		OOOICall(iCacheData, cached, NULL);
 	}
 }
 OOOMethodEnd

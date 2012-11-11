@@ -2,10 +2,11 @@
 #define OOOICache_H
 
 #include "OOOCode.h"
+#include "OOOICacheData.h"
 
 #define OOOInterface OOOICache
 OOOVirtuals
-	OOOVirtual(void, set, char * szName, unsigned char * pData, size_t uSize)
+	OOOVirtual(void, set, OOOICacheData * iCacheData)
 OOOVirtualsEnd
 #undef OOOInterface
 
