@@ -56,6 +56,8 @@ OOODestructorEnd
 
 OOOMethod(void, set, OOOICacheData * iCacheData)
 {
+	char * szName = OOOICall(iCacheData, getName);
+
 	/* TODO: Add to the cache */
 
 	/* Notify the cache data instance that caching is complete */
@@ -103,17 +105,17 @@ OOODeclareEnd
 
 static void start()
 {
-	TestData * pTestData = OOOConstruct(TestData, "Test", pData, uSize);
+	MyPrivateData * pMyPrivateData = OOOConstruct(MyPrivateData, "Test", pData, uSize);
 	pCache = OOOConstruct(OOOTestCache);
-	OOOICall(OOOCast(OOOICache, pCache), set, OOOCast(OOOICacheData, pTestData));
+	OOOICall(OOOCast(OOOICache, pCache), set, OOOCast(OOOICacheData, pMyPrivateData));
 }
 
-static void cached(TestData * pTestData, OOOIError * iError)
+static void cached(MyPrivateData * pMyPrivateData, OOOIError * iError)
 {
 	unsigned char * pCachedData;
 	size_t uCachedSize;
 
-	OOODestroy(pTestData);
+	OOODestroy(pMyPrivateData);
 
 	assert(iError == NULL);
 
