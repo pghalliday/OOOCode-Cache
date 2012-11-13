@@ -108,12 +108,14 @@ static void start()
 	OOOICall(OOOCast(OOOICache, pCache), set, OOOCast(OOOICacheData, pTestData));
 }
 
-static void cached(TestData * pTestData)
+static void cached(TestData * pTestData, OOOIError * iError)
 {
 	unsigned char * pCachedData;
 	size_t uCachedSize;
 
 	OOODestroy(pTestData);
+
+	assert(iError == NULL);
 
 	OOOCall(pCache, get, "Test", &pCachedData, &uCachedSize);
 	assert(pCachedData == pData);
@@ -148,8 +150,7 @@ OOOMethod(size_t, getSize)
 OOOMethodEnd
 
 OOOMethod(void, cached, OOOIError * iError)
-	assert(iError == NULL);
-	cached(OOOThis);
+	cached(OOOThis, iError);
 OOOMethodEnd
 
 OOOConstructor(char * szName, unsigned char * pData, size_t uSize)
