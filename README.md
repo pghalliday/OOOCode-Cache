@@ -5,12 +5,12 @@ OOOCode Cache interface for named lumps of data.
 
 ## Features
 
-OOOICache interface
+### OOOICache interface
 
 - Should provide a set method to add data to a cache
 - Should support asynchronous implementations
 
-OOOTestCache implementation
+### OOOTestCache implementation
 
 - Should implement a get method that returns the same data pointer and size that was set
 
@@ -73,6 +73,102 @@ OOOConstructor()
 }
 OOOConstructorEnd
 
+#undef OOOClass
+```
+
+### To use OOOTestCache
+
+```C
+#include "OOOTestCache.h"
+
+OOOTestCache * pCache;
+unsigned char pData[] =
+{
+	...
+}
+size_t uSize = sizeof(pData);
+
+/* Declare a private data class */
+
+#define OOOClass MyPrivateData
+OOODeclare(char * szName, unsigned char * pData, size_t uSize)
+	OOOImplements
+		OOOImplement(OOOICacheData)
+	OOOImplementsEnd
+	OOOExports
+	OOOExportsEnd
+OOODeclareEnd
+#undef
+
+
+static void start()
+{
+	TestData * pTestData = OOOConstruct(TestData, "Test", pData, uSize);
+	pCache = OOOConstruct(OOOTestCache);
+	OOOICall(OOOCast(OOOICache, pCache), set, OOOCast(OOOICacheData, pTestData));
+}
+
+static void cached(TestData * pTestData)
+{
+	unsigned char * pCachedData;
+	size_t uCachedSize;
+
+	OOODestroy(pTestData);
+
+	OOOCall(pCache, get, "Test", &pCachedData, &uCachedSize);
+	assert(pCachedData == pData);
+	assert(uCachedSize == uSize);
+
+	OOODestroy(pCache);
+}
+
+
+/* Implement the private data class */
+
+#define OOOClass MyPrivateData
+OOOPrivateData
+	char * szName;
+	unsigned char * pData;
+	size_t uSize;
+OOOPrivateDataEnd
+
+OOODestructor
+OOODestructorEnd
+
+OOOMethod(char *, getName)
+	return OOOF(szName);
+OOOMethodEnd
+
+OOOMethod(unsigned char *, getData)
+	return OOOF(pData);
+OOOMethodEnd
+
+OOOMethod(size_t, getSize)
+	return OOOF(uSize);
+OOOMethodEnd
+
+OOOMethod(void, cached, OOOIError * iError)
+	assert(iError == NULL);
+	cached(OOOThis);
+OOOMethodEnd
+
+OOOConstructor(char * szName, unsigned char * pData, size_t uSize)
+#define OOOInterface OOOICacheData
+	OOOMapVirtuals
+		OOOMapVirtual(getName)
+		OOOMapVirtual(getData)
+		OOOMapVirtual(getSize)
+		OOOMapVirtual(cached)
+	OOOMapVirtualsEnd
+#undef OOOInterface
+
+	OOOMapMethods
+	OOOMapMethodsEnd
+
+	OOOF(szName) = szName;
+	OOOF(pData) = pData;
+	OOOF(uSize) = uSize;
+OOOConstructorEnd
 #undef OOOClass
 ```
 
