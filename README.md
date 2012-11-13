@@ -3,16 +3,26 @@ OOOCode-Cache
 
 OOOCode Cache interface for named lumps of data.
 
-## Features
-
-### OOOICache interface
+## OOOICache interface
 
 - Should provide a set method to add data to a cache
 - Should support asynchronous implementations
 
-### OOOTestCache implementation
+### Roadmap
+
+- Nothing yet
+
+## OOOTestCache implementation
 
 - Should implement a get method that returns the same data pointer and size that was set
+
+### Roadmap
+
+- Nothing yet
+
+## Roadmap
+
+- Should be possible to notify the original owner of the data pointer the original data is no longer needed
 
 ## API
 
@@ -174,10 +184,6 @@ OOOConstructor(char * szName, unsigned char * pData, size_t uSize)
 OOOConstructorEnd
 #undef OOOClass
 ```
-
-## Roadmap
-
-- Should be possible to notify the original owner of the data pointer the original data is no longer needed
 
 ## Contributing
 
