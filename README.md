@@ -5,43 +5,80 @@ OOOCode Cache interface for named lumps of data.
 
 ## Features
 
-- Should expose a cache interface
-- Should implement a test cache
-- OOOTestCache should return the same data pointer that was set in the cache
+OOOICache interface
+
+- Should provide a set method to add data to a cache
+- Should support asynchronous implementations
+
+OOOTestCache implementation
+
+- Should implement a get method that returns the same data pointer and size that was set
 
 ## API
 
-OOOTestCache class
+### To implement an OOOICache
+
+MyCache.h
 
 ```C
-#include "OOOTestCache.h"
+#ifndef OOOMyCache_H
+#define OOOMyCache_H
 
-unsigned char aMyData[] =
+#include "OOOICache.h"
+
+#define OOOClass OOOMyCache
+OOODeclare()
+	OOOImplements
+		OOOImplement(OOOICache)
+	OOOImplementsEnd
+	OOOExports
+	OOOExportsEnd
+OOODeclareEnd
+#undef OOOClass
+
+#endif
+```
+
+MyCache.c
+
+```C
+#include "OOOMyCache.h"
+
+#define OOOClass OOOMyCache
+
+OOOPrivateData
+OOOPrivateDataEnd
+
+OOODestructor
 {
-  ...
-};
-size_t uMyDataSize = sizeof(aMyData)
+}
+OOODestructorEnd
 
-OOOTestCache * pCache = OOOConstruct(OOOTestCache);
-OOOICache * iCache = OOOCast(OOOICache, pCache);
+OOOMethod(void, set, OOOICacheData * iCacheData)
+{
+	/* TODO: Add to the cache */
 
-/* set cached data by name */
-OOOICall(iCache, set, "MyData", aMyData, uMyDataSize);
+	/* Notify the cache data instance that caching is complete */
+	OOOICall(iCacheData, cached, NULL);
+}
+OOOMethodEnd
 
-...
+OOOConstructor()
+{
+#define OOOInterface OOOICache
+	OOOMapVirtuals
+		OOOMapVirtual(set)
+	OOOMapVirtualsEnd
+#undef OOOInterface
+}
+OOOConstructorEnd
 
-unsigned char * pData;
-size_t uDataSize;
-
-/* get cached data by name */
-OOOICall(iCache, get, "MyData", &pData, &uDataSize);
-);
+#undef OOOClass
 ```
 
 ## Roadmap
 
-- Should notify the owner when the original data is no longer needed
-- Should support asynchronous implementations
+- Should be possible to notify the original owner of the data pointer the original data is no longer needed
 
 ## Contributing
 
