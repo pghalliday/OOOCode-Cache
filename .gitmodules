@@ -10,3 +10,6 @@
 [submodule "Cache/submodules/Error"]
 	path = Cache/submodules/Error
 	url = https://github.com/pghalliday/OOOCode-Error.git
+[submodule "Cache/submodules/Macros"]
+	path = Cache/submodules/Macros
+	url = https://github.com/pghalliday/OOOCode-Macros.git
